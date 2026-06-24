@@ -15,6 +15,7 @@ class SettingsController extends Controller
             'satuan_kerja',
             'logo',
             'logo_tagline',
+            'favicon',
             'photo_bupati'
         )->first();
 
@@ -25,6 +26,7 @@ class SettingsController extends Controller
                 'tagline'          => $setting->tagline ?? '',
                 'satuan_kerja'     => $setting->satuan_kerja ?? '',
                 'logo_url'         => $setting && $setting->logo ? asset('storage/' . $setting->logo) : null,
+                 'favicon_url'      => $setting && $setting->favicon ? asset('storage/' . $setting->favicon) : null,
                 'logo_tagline_url' => $setting && $setting->logo_tagline ? asset('storage/' . $setting->logo_tagline) : null,
                 'photo_bupati'     => $setting && $setting->photo_bupati ? asset('storage/' . $setting->photo_bupati) : null,
             ],
