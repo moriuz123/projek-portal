@@ -16,7 +16,15 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
+import { useSettingsStore } from '@/stores/settings'
 import FloatingWidget from '@/components/FloatingWidget.vue'
 import HeaderNav from './components/HeaderNav.vue'
 import FooterSection from './components/Footer.vue'
+
+const settingsStore = useSettingsStore()
+
+onMounted(() => {
+  settingsStore.fetchSettings()
+})
 </script>

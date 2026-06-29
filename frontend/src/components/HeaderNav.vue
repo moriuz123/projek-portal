@@ -92,16 +92,18 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
 import axios from 'axios'
+import { useSettingsStore } from '@/stores/settings'
 import MenuItem from './MenuItem.vue'
 
+const settingsStore = useSettingsStore()
 const isScrolled = ref(false)
 const isHovered = ref(false)
 const isMobileOpen = ref(false)
 
 const menu = ref([])
-const header = ref({
+const header = computed(() => settingsStore.data || {
   site_name: '',
   satuan_kerja: '',
   logo_url: null,
@@ -122,21 +124,9 @@ const fetchMenu = async () => {
   }
 }
 
-const fetchHeaderData = async () => {
-  try {
-    const res = await axios.get('/api/settings/header')
-    if (res.data.status === 'success') {
-      header.value = res.data.data
-    }
-  } catch (error) {
-    console.error('Gagal mengambil header:', error)
-  }
-}
-
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
   fetchMenu()
-  fetchHeaderData()
 })
 
 onBeforeUnmount(() => {

@@ -75,9 +75,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
+import { useSettingsStore } from '@/stores/settings'
 
 // === Import Lucide ===
 import * as LucideIcons from 'lucide-vue-next'
@@ -89,6 +90,8 @@ import * as HeroiconsSolid from '@heroicons/vue/24/solid'
 
 // Router
 const router = useRouter()
+
+const settingsStore = useSettingsStore()
 
 // Format nama untuk Lucide
 const formatIconNameLucide = (name) => {
@@ -179,17 +182,7 @@ const resolveUrl = (item) => {
 }
 
 // === Foto Bupati ===
-const fotoBupati = ref(null)
-
-const fetchPengaturan = async () => {
-  try {
-    const res = await axios.get('/api/settings/header')
-    const photo = res.data.data.photo_bupati
-    fotoBupati.value = photo ? `${photo}` : null
-  } catch (err) {
-    console.error('Gagal mengambil pengaturan situs:', err)
-  }
-}
+const fotoBupati = computed(() => settingsStore.data?.photo_bupati || null)
 
 // === Search ===
 const searchQuery = ref('')
@@ -203,7 +196,6 @@ const doSearch = () => {
 onMounted(() => {
   fetchHeroSlides()
   fetchMenus()
-  fetchPengaturan()
 
   setInterval(() => {
     if (heroSlides.value.length > 0) {

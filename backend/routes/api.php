@@ -33,8 +33,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/hero-sliders', [HeroSliderController::class, 'index']);
 
-Route::get('/settings/header', [SettingsController::class, 'headerData']);
-
 
 // ===== Modul Berita =====
 Route::get('/berita', [BeritaController::class, 'index']);

@@ -24,16 +24,18 @@ export const useSettingsStore = defineStore('settings', {
           }
 
           // favicon
-          if (this.data.favicon_url) {
-            let icon = document.querySelector("link[rel='icon']")
+          const faviconUrl = this.data.favicon_url || '/favicon.ico'
+          let icons = document.querySelectorAll("link[rel*='icon']")
 
-            if (!icon) {
-              icon = document.createElement('link')
-              icon.rel = 'icon'
-              document.head.appendChild(icon)
-            }
-
-            icon.href = this.data.favicon_url + '?v=' + Date.now()
+          if (icons.length === 0) {
+            let icon = document.createElement('link')
+            icon.rel = 'icon'
+            icon.href = faviconUrl + '?v=' + Date.now()
+            document.head.appendChild(icon)
+          } else {
+            icons.forEach(icon => {
+              icon.href = faviconUrl + '?v=' + Date.now()
+            })
           }
         }
 
