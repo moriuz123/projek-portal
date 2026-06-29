@@ -46,9 +46,3 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-aside a.router-link-active {
-  color: #16a34a; /* hijau utama */
-  font-weight: 600;
-}
-</style>

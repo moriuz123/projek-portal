@@ -86,12 +86,3 @@ watch(
 )
 </script>
 
-<style scoped>
-/* Tidak menambah aturan baru, hanya fix untuk gambar di dalam article */
-.page-content img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 12px;
-  margin: 1.5rem 0;
-}
-</style>

@@ -43,6 +43,8 @@
 </template>
 
 <script setup>
+import { formatDate, getStorageUrl } from '@/utils/helpers'
+
 const props = defineProps({
   judul: String,
   slug: String,
@@ -58,7 +60,7 @@ const props = defineProps({
 const resolveThumbnail = (img) => {
   if (!img) return '/images/default-thumbnail.jpg'
   const fixedPath = decodeURIComponent(img)
-  return fixedPath.includes('/storage') ? fixedPath : `/storage/${fixedPath}`
+  return getStorageUrl(fixedPath)
 }
 
 /**
@@ -66,14 +68,8 @@ const resolveThumbnail = (img) => {
  */
 const formatTanggal = (tgl) => {
   if (!tgl) return 'Tanggal tidak tersedia'
-
   const d = new Date(tgl)
   if (isNaN(d.getTime())) return 'Tanggal tidak tersedia'
-
-  return d.toLocaleDateString('id-ID', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  })
+  return formatDate(tgl, { month: 'long' })
 }
 </script>

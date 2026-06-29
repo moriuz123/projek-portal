@@ -24,7 +24,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import axios from '@/utils/api'
 
 const links = ref([])
 
@@ -43,10 +43,3 @@ onMounted(() => {
   loadSidebarLinks()
 })
 </script>
-
-<style scoped>
-aside a.router-link-active {
-  color: #16a34a; /* hijau utama */
-  font-weight: 600;
-}
-</style>

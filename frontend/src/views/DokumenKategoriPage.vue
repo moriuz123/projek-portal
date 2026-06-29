@@ -28,7 +28,7 @@
                 <td class="px-4 py-2 border">{{ doc.judul }}</td>
                 <td class="px-4 py-2 border">{{ doc.sumber || '-' }}</td>
                 <td class="px-4 py-2 border">
-                  {{ new Date(doc.created_at).toLocaleDateString('id-ID') }}
+                  {{ formatDate(doc.created_at) }}
                 </td>
                 <td class="px-4 py-2 border flex gap-2">
                   <!-- Tombol Lihat -->
@@ -86,6 +86,7 @@ import { onMounted, ref } from 'vue'
 import PageHeader from '@/components/PageHeader.vue'
 import VuePdfApp from 'vue3-pdf-app'
 import 'vue3-pdf-app/dist/icons/main.css'
+import { formatDate, getStorageUrl } from '@/utils/helpers'
 
 const route = useRoute()
 const dokumentStore = useDokumentStore()
@@ -99,7 +100,7 @@ onMounted(() => {
 })
 
 function getFileUrl(filePath) {
-  return `/storage/${filePath}`
+  return getStorageUrl(filePath)
 }
 
 function openFlipbook(doc) {
@@ -112,7 +113,3 @@ function closeFlipbook() {
   selectedFileUrl.value = null
 }
 </script>
-
-<style scoped>
-/* Bisa tambahkan styling modal kalau mau */
-</style>

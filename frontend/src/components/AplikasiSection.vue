@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from '@/utils/api'
 
 export default {
   name: 'DataAplikasiCards',

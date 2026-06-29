@@ -5,6 +5,7 @@ import { useDokumentStore } from '@/stores/dokument'
 import { storeToRefs } from 'pinia'
 import VuePdfApp from 'vue3-pdf-app'
 import 'vue3-pdf-app/dist/icons/main.css'
+import { getStorageUrl } from '@/utils/helpers'
 
 const dokumentStore = useDokumentStore()
 const { dokuments, loading, error } = storeToRefs(dokumentStore)
@@ -32,7 +33,7 @@ const scrollRight = () => {
 
 // ✅ Tombol Lihat (flipbook modal)
 function getFileUrl(filePath) {
-  return `/storage/${filePath}`
+  return getStorageUrl(filePath)
 }
 function openFlipbook(doc) {
   selectedFileUrl.value = getFileUrl(doc.file_path)
@@ -182,13 +183,3 @@ const goToDot = (index) => {
     </div>
   </section>
 </template>
-
-<style>
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-</style>

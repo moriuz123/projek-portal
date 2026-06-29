@@ -145,7 +145,7 @@
 <script setup>
 import { ref, watch, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import axios from 'axios'
+import axios from '@/utils/api'
 import PageHeader from '@/components/PageHeader.vue'
 
 const route = useRoute()

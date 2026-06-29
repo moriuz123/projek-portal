@@ -101,7 +101,7 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import axios from 'axios'
+import axios from '@/utils/api'
 import dayjs from 'dayjs'
 
 const agendas = ref([])

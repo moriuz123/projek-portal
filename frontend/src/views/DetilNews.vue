@@ -25,14 +25,7 @@
           <!-- Tanggal & Views -->
           <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
             <p>
-              {{
-                new Date(store.beritaDetail.tanggal_publish).toLocaleDateString('id-ID', {
-                  weekday: 'long',
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })
-              }}
+              {{ formatDate(store.beritaDetail.tanggal_publish, { weekday: 'long', month: 'long' }) }}
             </p>
             <p class="text-gray-600">👁️ Dilihat: {{ store.beritaDetail.views ?? 0 }} kali</p>
           </div>
@@ -59,6 +52,7 @@ import { useRoute } from 'vue-router'
 import { useBeritaStore } from '../stores/useBeritaStore'
 import SidebarDetilNews from '../components/SidebarDetilNews.vue'
 import PageHeader from '../components/PageHeader.vue'
+import { formatDate } from '@/utils/helpers'
 
 const route = useRoute()
 const store = useBeritaStore()

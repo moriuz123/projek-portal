@@ -27,27 +27,13 @@
 
           <!-- Tanggal -->
           <div class="page-meta">
-            {{
-              new Date(pengumuman.created_at).toLocaleDateString('id-ID', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })
-            }}
+            {{ formatDate(pengumuman.created_at, { weekday: 'long', month: 'long' }) }}
           </div>
 
           <!-- Tanggal pelaksanaan (BARU) -->
           <div v-if="pengumuman.tgl_pelaksanaan" class="page-meta mt-1 text-green-700 font-medium">
             📅 Pelaksanaan:
-            {{
-              new Date(pengumuman.tgl_pelaksanaan).toLocaleDateString('id-ID', {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })
-            }}
+            {{ formatDate(pengumuman.tgl_pelaksanaan, { weekday: 'long', month: 'long' }) }}
           </div>
 
           <!-- Isi -->
@@ -74,7 +60,8 @@
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import axios from 'axios'
+import axios from '@/utils/api'
+import { formatDate, getStorageUrl } from '@/utils/helpers'
 
 import PageHeader from '@/components/PageHeader.vue'
 import SidebarPengumuman from '@/components/SidebarPengumuman.vue'
@@ -107,17 +94,7 @@ watch(
 
 const thumbnailSrc = computed(() => {
   return pengumuman.value?.gambar
-    ? `/storage/${pengumuman.value.gambar}`
+    ? getStorageUrl(pengumuman.value.gambar)
     : '/images/default-pengumuman.jpg'
 })
 </script>
-
-<style scoped>
-/* Mengikuti style halaman layanan: hanya fix gambar di artikel */
-.page-content img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 12px;
-  margin: 1.5rem 0;
-}
-</style>

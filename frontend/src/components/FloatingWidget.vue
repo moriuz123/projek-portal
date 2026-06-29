@@ -187,7 +187,7 @@
 <script setup>
 import { ref, onBeforeUnmount } from 'vue'
 import { BarChart, MessageCircle, Accessibility, Pencil, Home } from 'lucide-vue-next'
-import axios from 'axios'
+import axios from '@/utils/api'
 
 // state dan logic tetap sama dengan versi kamu
 const showAduan = ref(false)
@@ -275,29 +275,3 @@ const toggleHighContrast = () => document.body.classList.toggle('access-contrast
 const toggleBigCursor = () => document.body.classList.toggle('access-big-cursor')
 const toggleReduceMotion = () => document.body.classList.toggle('access-reduce-motion')
 </script>
-
-<style>
-.access-bold * {
-  font-weight: bold !important;
-}
-.access-highlight-links a {
-  background: yellow !important;
-  color: black !important;
-  padding: 2px 4px;
-}
-.access-monochrome {
-  filter: grayscale(100%) !important;
-}
-.access-contrast {
-  filter: contrast(200%) !important;
-}
-.access-big-cursor {
-  cursor:
-    url('data:image/svg+xml;utf8,<svg height="32" width="32" xmlns="http://www.w3.org/2000/svg"><circle cx="16" cy="16" r="8" fill="black"/></svg>'),
-    auto !important;
-}
-.access-reduce-motion * {
-  transition: none !important;
-  animation: none !important;
-}
-</style>

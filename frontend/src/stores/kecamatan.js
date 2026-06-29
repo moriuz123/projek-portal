@@ -1,7 +1,7 @@
 // src/stores/kecamatan.js
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import axios from 'axios'
+import axios from '@/utils/api'
 
 export const useKecamatanStore = defineStore('kecamatan', () => {
   const kecamatans = ref([])

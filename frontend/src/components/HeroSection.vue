@@ -77,7 +77,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
+import axios from '@/utils/api'
 import { useSettingsStore } from '@/stores/settings'
 
 // === Import Lucide ===
@@ -204,26 +204,3 @@ onMounted(() => {
   }, 5000)
 })
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 1s;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-@keyframes soft-bounce {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-.animate-soft-bounce {
-  animation: soft-bounce 3s infinite ease-in-out;
-}
-</style>

@@ -1,6 +1,6 @@
 // src/stores/bannerStore.js
 import { defineStore } from 'pinia'
-import axios from 'axios'
+import axios from '@/utils/api'
 
 export const useBannerStore = defineStore('banner', {
   state: () => ({

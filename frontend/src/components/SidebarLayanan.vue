@@ -24,13 +24,7 @@
           </router-link>
 
           <p class="text-xs text-gray-500 mt-1">
-            {{
-              new Date(item.created_at).toLocaleDateString('id-ID', {
-                day: 'numeric',
-                month: 'short',
-                year: 'numeric',
-              })
-            }}
+            {{ formatDate(item.created_at) }}
           </p>
         </div>
       </div>
@@ -40,7 +34,8 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import axios from '@/utils/api'
+import { formatDate } from '@/utils/helpers'
 import BannerSlider from './BannerSlider.vue'
 
 const layananList = ref([])
@@ -54,9 +49,3 @@ onMounted(async () => {
   }
 })
 </script>
-
-<style scoped>
-.sidebar-section {
-  border: 1px solid #e5e7eb;
-}
-</style>

@@ -56,6 +56,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useBeritaStore } from '@/stores/useBeritaStore'
+import { formatDate, getStorageUrl } from '@/utils/helpers'
 
 const store = useBeritaStore()
 const activeTab = ref('latest')
@@ -63,17 +64,7 @@ const activeTab = ref('latest')
 // ✅ Fungsi untuk memastikan path thumbnail benar
 const resolveThumbnail = (img) => {
   if (!img) return '/images/default-thumbnail.jpg'
-  return img.includes('/storage') ? img : `/storage/${img}`
-}
-
-// ✅ Format tanggal lokal
-const formatDate = (dateStr) => {
-  if (!dateStr) return ''
-  return new Date(dateStr).toLocaleDateString('id-ID', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  })
+  return getStorageUrl(img)
 }
 
 // ✅ Tentukan daftar berita aktif

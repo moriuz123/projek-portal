@@ -26,7 +26,7 @@
               {{ item.judul }}
             </router-link>
             <p class="text-xs text-gray-400">
-              {{ formatDate(item.created_at) }}
+              {{ formatDate(item.created_at, { month: 'long' }) }}
             </p>
           </div>
         </li>
@@ -37,19 +37,11 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import axios from '@/utils/api'
+import { formatDate } from '@/utils/helpers'
 import BannerSlider from './BannerSlider.vue'
 
 const latestPengumuman = ref([])
-
-const formatDate = (date) => {
-  if (!date) return ''
-  return new Date(date).toLocaleDateString('id-ID', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  })
-}
 
 onMounted(async () => {
   try {
@@ -60,18 +52,3 @@ onMounted(async () => {
   }
 })
 </script>
-
-<style scoped>
-.sidebar-news {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.sidebar-section {
-  background-color: white;
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-}
-</style>

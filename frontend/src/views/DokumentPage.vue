@@ -40,7 +40,7 @@
               <td class="px-4 py-2 border">{{ dokument.judul }}</td>
               <td class="px-4 py-2 border">{{ dokument.kategori.nama }}</td>
               <td class="px-4 py-2 border">
-                {{ new Date(dokument.created_at).toLocaleDateString() }}
+                {{ formatDate(dokument.created_at) }}
               </td>
               <td class="px-4 py-2 border flex gap-2">
                 <!-- Lihat PDF di tab baru -->
@@ -78,6 +78,7 @@
 import { ref, computed, onMounted } from 'vue'
 import PageHeader from '@/components/PageHeader.vue'
 import { useDokumentStore } from '@/stores/dokument'
+import { formatDate, getStorageUrl } from '@/utils/helpers'
 
 const dokumentStore = useDokumentStore()
 const searchQuery = ref('')
@@ -106,10 +107,6 @@ const kategoriList = computed(() => {
 
 // Generate URL publik agar browser bisa akses PDF
 function getFileUrl(filePath) {
-  return `/storage/${filePath}`
+  return getStorageUrl(filePath)
 }
 </script>
-
-<style scoped>
-/* Styling opsional, tombol sudah ada hover effect */
-</style>

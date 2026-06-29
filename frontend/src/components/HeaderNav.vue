@@ -93,7 +93,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue'
-import axios from 'axios'
+import axios from '@/utils/api'
 import { useSettingsStore } from '@/stores/settings'
 import MenuItem from './MenuItem.vue'
 

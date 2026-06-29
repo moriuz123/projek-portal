@@ -27,7 +27,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import axios from 'axios'
+import axios from '@/utils/api'
 
 const banners = ref([])
 const current = ref(0)

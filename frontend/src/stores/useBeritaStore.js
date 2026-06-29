@@ -1,6 +1,6 @@
 // src/stores/useBeritaStore.js
 import { defineStore } from 'pinia'
-import axios from 'axios'
+import axios from '@/utils/api'
 
 const ensureImage = (item) => {
   // jika sudah ada image (full url), pakai itu

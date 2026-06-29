@@ -73,7 +73,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from '@/utils/api'
 import { Facebook, Instagram, Twitter, Youtube, MessageCircle } from 'lucide-vue-next'
 
 export default {

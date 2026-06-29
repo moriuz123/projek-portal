@@ -10,7 +10,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import axios from '@/utils/api'
 import BannerSlider from './BannerSlider.vue'
 import NewsTabs from './NewsTabs.vue'
 

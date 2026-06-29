@@ -42,7 +42,8 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import axios from '@/utils/api'
+import { formatMonth, formatDay, formatFullDate } from '@/utils/helpers'
 import BannerSlider from './BannerSlider.vue'
 
 const items = ref([])
@@ -56,25 +57,4 @@ onMounted(async () => {
   }
 })
 
-function formatMonth(date) {
-  return new Intl.DateTimeFormat('id-ID', { month: 'short' }).format(new Date(date)).toUpperCase()
-}
-
-function formatDay(date) {
-  return new Date(date).getDate()
-}
-
-function formatFullDate(date) {
-  return new Intl.DateTimeFormat('id-ID', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  }).format(new Date(date))
-}
 </script>
-
-<style scoped>
-.sidebar-section {
-  border: 1px solid #e5e7eb;
-}
-</style>

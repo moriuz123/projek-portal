@@ -51,7 +51,7 @@
 
 <script setup>
 import { onMounted } from 'vue'
-import axios from 'axios'
+import axios from '@/utils/api'
 import { useBeritaStore } from '@/stores/useBeritaStore'
 import PageHeader from '@/components/PageHeader.vue'
 import NewsCard from '@/components/NewsCard.vue'

@@ -50,7 +50,7 @@
 <script setup>
 import { ref } from 'vue'
 import PageHeader from '@/components/PageHeader.vue'
-import axios from 'axios'
+import axios from '@/utils/api'
 
 const form = ref({
   nama: '',
@@ -83,9 +83,3 @@ const kirimData = async () => {
   }
 }
 </script>
-
-<style scoped>
-.input-field {
-  @apply w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500;
-}
-</style>

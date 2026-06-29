@@ -63,6 +63,7 @@
 import { onMounted, ref, computed } from 'vue'
 import { useAgendaStore } from '@/stores/agenda'
 import PageHeader from '@/components/PageHeader.vue'
+import { formatDate } from '@/utils/helpers'
 
 const agendaStore = useAgendaStore()
 
@@ -89,14 +90,4 @@ const filteredAgendas = computed(() => {
 
 // ambil data ketika halaman dibuka
 onMounted(() => agendaStore.fetchAgendas())
-
-// helper format tanggal
-const formatDate = (date) => {
-  const d = new Date(date)
-  return d.toLocaleDateString('id-ID', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
 </script>

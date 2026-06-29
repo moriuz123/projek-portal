@@ -35,13 +35,7 @@
                   {{ featured.title }}
                 </h2>
                 <p class="text-xs text-gray-500 mb-2 italic">
-                  {{
-                    new Date(featured.date).toLocaleDateString('id-ID', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric',
-                    })
-                  }}
+                  {{ formatDate(featured.date, { month: 'long' }) }}
                 </p>
                 <p class="text-gray-700 text-sm leading-relaxed line-clamp-3">
                   {{ featured.excerpt }}
@@ -76,13 +70,7 @@
                     {{ news.title }}
                   </h3>
                   <p class="text-xs text-gray-500 mt-1">
-                    {{
-                      new Date(news.date).toLocaleDateString('id-ID', {
-                        day: 'numeric',
-                        month: 'short',
-                        year: 'numeric',
-                      })
-                    }}
+                    {{ formatDate(news.date) }}
                   </p>
                 </div>
               </div>
@@ -130,7 +118,8 @@
 <script>
 import { useBeritaStore } from '@/stores/useBeritaStore'
 import { onMounted, ref } from 'vue'
-import axios from 'axios'
+import axios from '@/utils/api'
+import { formatDate, getStorageUrl } from '@/utils/helpers'
 
 export default {
   name: 'ContentSection',
@@ -148,18 +137,14 @@ export default {
       if (beritaStore.beritas.length > 0) {
         const data = beritaStore.beritas
         featured.value = {
-          image: data[0].thumbnail?.includes('/storage')
-            ? data[0].thumbnail
-            : `/storage/${data[0].thumbnail}`,
+          image: getStorageUrl(data[0].thumbnail),
           title: data[0].judul,
           date: data[0].tanggal_publish,
           excerpt: data[0].excerpt ?? '',
           slug: data[0].slug,
         }
         latestNews.value = data.slice(1, 5).map((item) => ({
-          image: item.thumbnail?.includes('/storage')
-            ? item.thumbnail
-            : `/storage/${item.thumbnail}`,
+          image: getStorageUrl(item.thumbnail),
           title: item.judul,
           date: item.tanggal_publish,
           slug: item.slug,
@@ -168,9 +153,7 @@ export default {
 
       const bannerRes = await axios.get('/api/banner?kategori=ucapan')
       if (Array.isArray(bannerRes.data)) {
-        banners.value = bannerRes.data.map((item) =>
-          item.gambar?.includes('/storage') ? item.gambar : `/storage/${item.gambar}`,
-        )
+        banners.value = bannerRes.data.map((item) => getStorageUrl(item.gambar))
       }
     }
 
@@ -191,25 +174,8 @@ export default {
       currentBanner,
       previousBanner,
       nextBanner,
+      formatDate,
     }
   },
 }
 </script>
-
-<style scoped>
-.line-clamp-2 {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.aspect-square {
-  aspect-ratio: 1 / 1;
-}
-</style>

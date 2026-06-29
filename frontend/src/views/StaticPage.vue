@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import axios from 'axios'
+import axios from '@/utils/api'
 import SidebarStatic from '../components/SidebarStatic.vue'
 import PageHeader from '../components/PageHeader.vue'
 
@@ -66,13 +66,3 @@ watch(
     <div v-else class="text-center py-20 text-gray-500">Halaman tidak ditemukan.</div>
   </div>
 </template>
-
-<style scoped>
-.prose a {
-  color: #16a34a;
-  text-decoration: underline;
-}
-.prose a:hover {
-  color: #15803d;
-}
-</style>

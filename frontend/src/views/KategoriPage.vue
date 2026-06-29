@@ -51,7 +51,7 @@
 <script setup>
 import { onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import axios from 'axios'
+import axios from '@/utils/api'
 import { useBeritaStore } from '@/stores/useBeritaStore'
 import PageHeader from '@/components/PageHeader.vue'
 import NewsCard from '@/components/NewsCard.vue'
