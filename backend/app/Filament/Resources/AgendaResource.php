@@ -28,6 +28,7 @@ class AgendaResource extends Resource
     {
         return $form->schema([
             TextInput::make('judul')->required(),
+            ...\App\Filament\Support\OpdFields::form(),
             TextInput::make('lokasi')->required(),
             TextInput::make('dresscode'),
             Textarea::make('deskripsi')->rows(3),
@@ -68,6 +69,8 @@ class AgendaResource extends Resource
                     ->sortable()
                     ->searchable(),
 
+                ...\App\Filament\Support\OpdFields::tableColumns(),
+
                 TextColumn::make('lokasi')
                     ->limit(30),
 
@@ -93,6 +96,9 @@ class AgendaResource extends Resource
                     }),
             ])
             ->defaultSort('tanggal_mulai', 'desc') // ✅ Hapus titik koma di sini
+            ->filters([
+                ...\App\Filament\Support\OpdFields::filters(),
+            ])
             ->actions([ // ✅ Ini sebelumnya tidak dieksekusi karena titik koma di atas
                 Actions\ActionGroup::make([
                     Actions\ViewAction::make(),

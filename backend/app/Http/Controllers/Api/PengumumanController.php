@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Api\Concerns\FiltersByOpd;
 use App\Http\Controllers\Controller;
 use App\Models\Pengumuman;
 use Illuminate\Http\Request;
 
 class PengumumanController extends Controller
 {
+    use FiltersByOpd;
+
     /**
      * Ambil semua pengumuman atau batasi jumlah dengan query ?limit=
      */
@@ -15,7 +18,8 @@ class PengumumanController extends Controller
     {
         $limit = $request->query('limit');
 
-        $query = Pengumuman::orderBy('created_at', 'desc');
+        $query = $this->applyOpdFilter(Pengumuman::with('opd'), $request)
+            ->orderBy('created_at', 'desc');
 
         if ($limit) {
             $pengumuman = $query->take((int) $limit)->get();
@@ -32,9 +36,11 @@ class PengumumanController extends Controller
     /**
      * Ambil detail pengumuman berdasarkan slug
      */
-    public function show($slug)
+    public function show(Request $request, $slug)
     {
-        $pengumuman = Pengumuman::where('slug', $slug)->first();
+        $pengumuman = $this->applyOpdFilter(Pengumuman::with('opd'), $request)
+            ->where('slug', $slug)
+            ->first();
 
         if (!$pengumuman) {
             return response()->json([

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Api\Concerns\FiltersByOpd;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -9,10 +10,12 @@ use App\Models\Berita;
 
 class BeritaController extends Controller
 {
+    use FiltersByOpd;
+
     // 🔹 Semua berita (default 6 terbaru)
-    public function index()
+    public function index(Request $request)
     {
-        $beritas = Berita::with('kategori') // ✅ Tambahkan ini
+        $beritas = $this->applyOpdFilter(Berita::with(['kategori', 'opd']), $request)
             ->published()
             ->orderBy('tanggal_publish', 'desc')
             ->limit(10)
@@ -28,9 +31,9 @@ class BeritaController extends Controller
     }
 
     // 🔹 Detail berita by slug
-    public function show($slug)
+    public function show(Request $request, $slug)
     {
-        $berita = Berita::with('kategori')
+        $berita = $this->applyOpdFilter(Berita::with(['kategori', 'opd']), $request)
             ->published()
             ->where('slug', $slug)
             ->firstOrFail();
@@ -47,9 +50,9 @@ class BeritaController extends Controller
     }
 
     // 🔹 Filter berita berdasarkan kategori slug
-    public function byKategori($slug)
+    public function byKategori(Request $request, $slug)
     {
-        $beritas = Berita::with('kategori') // ✅ Tambahkan ini
+        $beritas = $this->applyOpdFilter(Berita::with(['kategori', 'opd']), $request)
             ->byKategoriSlug($slug)
             ->published()
             ->orderBy('tanggal_publish', 'desc')
@@ -65,9 +68,9 @@ class BeritaController extends Controller
     }
 
     // 🔹 Berita terbaru (default 5)
-    public function latest()
+    public function latest(Request $request)
     {
-        $beritas = Berita::with('kategori') // ✅ Tambahkan ini
+        $beritas = $this->applyOpdFilter(Berita::with(['kategori', 'opd']), $request)
             ->latestNews()
             ->get();
 
@@ -75,9 +78,9 @@ class BeritaController extends Controller
     }
 
     // 🔹 Berita populer (default 5)
-    public function popular()
+    public function popular(Request $request)
     {
-        $beritas = Berita::with('kategori') // ✅ Tambahkan ini
+        $beritas = $this->applyOpdFilter(Berita::with(['kategori', 'opd']), $request)
             ->popularNews()
             ->get();
 

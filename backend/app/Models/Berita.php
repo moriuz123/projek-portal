@@ -6,15 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use App\Models\Concerns\BelongsToOpd;
 
 class Berita extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, BelongsToOpd;
 
     protected $table = 'beritas';
 
     protected $fillable = [
         'judul',
+        'opd_id',
+        'tampil_di_portal',
         'penulis',
         'user_id',
         'slug',
@@ -29,6 +32,7 @@ class Berita extends Model
     protected $casts = [
         'tanggal_publish' => 'date',
         'is_active' => 'boolean',
+        'tampil_di_portal' => 'boolean',
     ];
 
     protected static function boot()

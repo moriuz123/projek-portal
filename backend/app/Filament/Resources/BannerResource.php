@@ -43,6 +43,8 @@ class BannerResource extends Resource
                     $set('slug', $slug);
                 }),
 
+            ...\App\Filament\Support\OpdFields::form(),
+
             Select::make('kategori')
                 ->label('Kategori')
                 ->options([
@@ -80,8 +82,12 @@ class BannerResource extends Resource
 
                 TextColumn::make('kategori')
                     ->label('Kategori'),
+
+                ...\App\Filament\Support\OpdFields::tableColumns(),
             ])
             ->filters([
+                ...\App\Filament\Support\OpdFields::filters(),
+
                 Tables\Filters\SelectFilter::make('kategori')
                     ->label('Kategori')
                     ->options([

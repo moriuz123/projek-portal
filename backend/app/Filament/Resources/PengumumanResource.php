@@ -55,6 +55,8 @@ class PengumumanResource extends Resource
                     $set('slug', $slug);
                 }),
 
+            ...\App\Filament\Support\OpdFields::form(),
+
             RichEditor::make('isi')
                 ->label('Isi Pengumuman')
                 ->required()
@@ -123,6 +125,8 @@ class PengumumanResource extends Resource
                     ->date('d M Y')
                     ->sortable(),
 
+                ...\App\Filament\Support\OpdFields::tableColumns(),
+
                 TextColumn::make('status')
                     ->label('Status')
                     ->badge()
@@ -137,6 +141,9 @@ class PengumumanResource extends Resource
                     ->tooltip('Unduh File'),
             ])
             ->defaultSort('created_at', 'desc')
+            ->filters([
+                ...\App\Filament\Support\OpdFields::filters(),
+            ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),

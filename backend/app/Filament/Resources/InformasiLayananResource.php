@@ -54,6 +54,7 @@ class InformasiLayananResource extends Resource
                     $set('slug', $slug);
                 }),
 
+            ...\App\Filament\Support\OpdFields::form(),
 
             RichEditor::make('deskripsi')
                 ->label('Deskripsi')
@@ -105,6 +106,8 @@ class InformasiLayananResource extends Resource
                 TextColumn::make('unit_pelaksana')
                     ->label('Unit'),
 
+                ...\App\Filament\Support\OpdFields::tableColumns(),
+
                 TextColumn::make('kontak')
                     ->label('Kontak'),
 
@@ -119,6 +122,8 @@ class InformasiLayananResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
+                ...\App\Filament\Support\OpdFields::filters(),
+
                 SelectFilter::make('unit_pelaksana')
                     ->label('Filter Unit Pelaksana')
                     ->options(

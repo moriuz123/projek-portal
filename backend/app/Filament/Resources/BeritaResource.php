@@ -56,6 +56,8 @@ class BeritaResource extends Resource
                     $set('slug', $slug);
                 }),
 
+            ...\App\Filament\Support\OpdFields::form(),
+
             Select::make('status')
                 ->label('Status')
                 ->options([
@@ -135,6 +137,8 @@ class BeritaResource extends Resource
                     ->sortable()
                     ->searchable(),
 
+                ...\App\Filament\Support\OpdFields::tableColumns(),
+
                 TextColumn::make('tags.nama')
                     ->label('Tags')
                     ->badge()
@@ -168,6 +172,8 @@ class BeritaResource extends Resource
                 Tables\Filters\SelectFilter::make('kategori')
                     ->relationship('kategori', 'nama')
                     ->label('Filter Kategori'),
+
+                ...\App\Filament\Support\OpdFields::filters(),
 
                 Tables\Filters\SelectFilter::make('status')
                     ->label('Status')

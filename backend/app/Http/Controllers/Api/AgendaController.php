@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Api\Concerns\FiltersByOpd;
 use App\Http\Controllers\Controller;
 use App\Models\Agenda;
 use Illuminate\Http\Request;
 
 class AgendaController extends Controller
 {
-    public function index()
+    use FiltersByOpd;
+
+    public function index(Request $request)
     {
-        $agendas = Agenda::orderBy('tanggal_mulai', 'desc')->get();
+        $agendas = $this->applyOpdFilter(Agenda::with('opd'), $request)
+            ->orderBy('tanggal_mulai', 'desc')
+            ->get();
 
         return response()->json([
             'status' => 'success',
@@ -19,9 +24,9 @@ class AgendaController extends Controller
     }
 
     // 🔹 Tambahan untuk detail agenda
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $agenda = Agenda::find($id);
+        $agenda = $this->applyOpdFilter(Agenda::with('opd'), $request)->find($id);
 
         if (!$agenda) {
             return response()->json([

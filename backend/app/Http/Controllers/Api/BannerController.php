@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Api\Concerns\FiltersByOpd;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Banner;
 
 class BannerController extends Controller
 {
+    use FiltersByOpd;
+
     /**
      * Ambil semua banner atau filter berdasarkan kategori (query parameter)
      * Contoh:
@@ -16,7 +19,10 @@ class BannerController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Banner::select('id', 'judul', 'gambar', 'slug', 'kategori', 'category', 'created_at');
+        $query = $this->applyOpdFilter(
+            Banner::with('opd')->select('id', 'opd_id', 'tampil_di_portal', 'judul', 'gambar', 'slug', 'kategori', 'category', 'created_at'),
+            $request
+        );
 
         if ($request->has('kategori')) {
             $query->where('kategori', $request->query('kategori'));
@@ -31,10 +37,11 @@ class BannerController extends Controller
         return response()->json($banners);
     }
 
-    public function byKategori($kategori)
+    public function byKategori(Request $request, $kategori)
     {
-        $banners = Banner::where('kategori', $kategori)
-            ->select('id', 'judul', 'gambar', 'slug', 'kategori', 'created_at')
+        $banners = $this->applyOpdFilter(Banner::with('opd'), $request)
+            ->where('kategori', $kategori)
+            ->select('id', 'opd_id', 'tampil_di_portal', 'judul', 'gambar', 'slug', 'kategori', 'created_at')
             ->get()
             ->map(function ($banner) {
                 $banner->gambar_url = asset('storage/' . $banner->gambar);

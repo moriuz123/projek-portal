@@ -35,6 +35,8 @@ class DataAplikasiResource extends Resource
                 ->label('Nama Aplikasi')
                 ->required(),
 
+            ...\App\Filament\Support\OpdFields::form(),
+
             Select::make('jenis')
                 ->label('Jenis Aplikasi')
                 ->options([
@@ -106,6 +108,8 @@ class DataAplikasiResource extends Resource
                     ->label('OPD Pelaksana')
                     ->wrap(),
 
+                ...\App\Filament\Support\OpdFields::tableColumns(),
+
                 TextColumn::make('link')
                     ->label('Link')
                     ->url(fn($record) => $record->link, true)
@@ -129,6 +133,8 @@ class DataAplikasiResource extends Resource
             ])
 
             ->filters([
+                ...\App\Filament\Support\OpdFields::filters(),
+
                 SelectFilter::make('jenis')
                     ->label('Jenis')
                     ->options([

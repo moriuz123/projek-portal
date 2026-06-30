@@ -33,6 +33,8 @@ class VidioResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
+            ...\App\Filament\Support\OpdFields::form(),
+
             Select::make('kategori_vidio_id')
                 ->label('Kategori')
                 ->relationship('kategori', 'nama_kategori_vidio')
@@ -85,6 +87,8 @@ class VidioResource extends Resource
                     ->label('Kategori')
                     ->sortable(),
 
+                ...\App\Filament\Support\OpdFields::tableColumns(),
+
                 IconColumn::make('is_active')
                     ->label('Tampil')
                     ->boolean(),
@@ -95,6 +99,9 @@ class VidioResource extends Resource
                     ->sortable(),
             ])
             ->defaultSort('created_at', 'desc')
+            ->filters([
+                ...\App\Filament\Support\OpdFields::filters(),
+            ])
             ->actions([
                 EditAction::make(),
                 DeleteAction::make(),

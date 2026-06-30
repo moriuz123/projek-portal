@@ -22,4 +22,29 @@ class Opd extends Model
         'urutan',
         'is_published',
     ];
+
+    public function beritas()
+    {
+        return $this->hasMany(Berita::class);
+    }
+
+    public function agendas()
+    {
+        return $this->hasMany(Agenda::class);
+    }
+
+    public function pengumuman()
+    {
+        return $this->hasMany(Pengumuman::class);
+    }
+
+    public function dokumens()
+    {
+        return $this->hasMany(Dokumen::class);
+    }
+
+    public function layanan()
+    {
+        return $this->hasMany(InformasiLayanan::class);
+    }
 }

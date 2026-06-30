@@ -39,6 +39,7 @@ class HalamanStatisResource extends Resource
                     $set('slug', Str::slug($state));
                 }),
 
+            ...\App\Filament\Support\OpdFields::form(),
 
 
             Forms\Components\FileUpload::make('cover')
@@ -68,6 +69,8 @@ class HalamanStatisResource extends Resource
                     ->sortable()
                     ->searchable(),
 
+                ...\App\Filament\Support\OpdFields::tableColumns(),
+
                 Tables\Columns\ImageColumn::make('cover')
                     ->label('Cover')
                     ->height(50),
@@ -78,6 +81,9 @@ class HalamanStatisResource extends Resource
                     ->sortable(),
             ])
             ->defaultSort('updated_at', 'desc')
+            ->filters([
+                ...\App\Filament\Support\OpdFields::filters(),
+            ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make()->icon('heroicon-o-pencil'),

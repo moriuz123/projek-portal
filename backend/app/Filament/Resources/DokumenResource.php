@@ -49,6 +49,8 @@ class DokumenResource extends Resource
                         $set('slug', Str::slug($state));
                     }),
 
+                ...\App\Filament\Support\OpdFields::form(),
+
                 Textarea::make('deskripsi')
                     ->label('Deskripsi')
                     ->rows(3),
@@ -105,9 +107,12 @@ class DokumenResource extends Resource
                 ->sortable()
                 ->extraAttributes(['class' => 'whitespace-normal break-words']),
 
+            ...\App\Filament\Support\OpdFields::tableColumns(),
 
         ])
             ->filters([
+                ...\App\Filament\Support\OpdFields::filters(),
+
                 SelectFilter::make('kategori_dokumen_id')
                     ->label('Kategori')
                     ->relationship('kategori', 'nama')

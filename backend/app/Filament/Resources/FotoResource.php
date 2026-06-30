@@ -69,6 +69,8 @@ class FotoResource extends Resource
                 ->label('Judul Foto')
                 ->required(),
 
+            ...\App\Filament\Support\OpdFields::form(),
+
             Select::make('kategori_foto_id')
                 ->label('Kategori Foto')
                 ->relationship('kategori', 'nama') // Pastikan relasi 'kategori' ada di model Foto
@@ -104,6 +106,8 @@ class FotoResource extends Resource
             TextColumn::make('kategori.nama') // ← Pastikan relasi 'kategori' di model Foto mengarah ke KategoriFoto
                 ->label('Kategori'),
 
+            ...\App\Filament\Support\OpdFields::tableColumns(),
+
             TextColumn::make('created_at')
                 ->label('Tanggal')
                 ->dateTime('d M Y H:i'),
@@ -113,6 +117,8 @@ class FotoResource extends Resource
     public static function getTableFilters(): array
     {
         return [
+            ...\App\Filament\Support\OpdFields::filters(),
+
             SelectFilter::make('kategori_foto_id')
                 ->label('Kategori')
                 ->relationship('kategori', 'nama')

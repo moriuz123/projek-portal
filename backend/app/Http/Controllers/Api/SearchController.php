@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Api\Concerns\FiltersByOpd;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Berita;
@@ -16,6 +17,8 @@ use App\Models\Kecamatan; // ✅ Penambahan model Kecamatan
 
 class SearchController extends Controller
 {
+    use FiltersByOpd;
+
     public function search(Request $request)
     {
         $q = $request->query('q');
@@ -34,27 +37,43 @@ class SearchController extends Controller
         }
 
         $results = [
-            'berita' => Berita::where('judul', 'like', "%$q%")
-                ->orWhere('konten', 'like', "%$q%")
+            'berita' => $this->applyOpdFilter(Berita::with('opd'), $request)
+                ->where(function ($query) use ($q) {
+                    $query->where('judul', 'like', "%$q%")
+                        ->orWhere('konten', 'like', "%$q%");
+                })
                 ->get(),
 
-            'dokumen' => Dokumen::where('judul', 'like', "%$q%")->get(),
+            'dokumen' => $this->applyOpdFilter(Dokumen::with('opd'), $request)
+                ->where('judul', 'like', "%$q%")
+                ->get(),
 
             'opd' => Opd::where('nama', 'like', "%$q%")->get(),
 
-            'layanan' => InformasiLayanan::where('judul', 'like', "%$q%")->get(),
-
-            'pengumuman' => Pengumuman::where('judul', 'like', "%$q%")
-                ->orWhere('isi', 'like', "%$q%")
+            'layanan' => $this->applyOpdFilter(InformasiLayanan::with('opd'), $request)
+                ->where('judul', 'like', "%$q%")
                 ->get(),
 
-            'agenda' => Agenda::where('judul', 'like', "%$q%")
-                ->orWhere('deskripsi', 'like', "%$q%")
+            'pengumuman' => $this->applyOpdFilter(Pengumuman::with('opd'), $request)
+                ->where(function ($query) use ($q) {
+                    $query->where('judul', 'like', "%$q%")
+                        ->orWhere('isi', 'like', "%$q%");
+                })
+                ->get(),
+
+            'agenda' => $this->applyOpdFilter(Agenda::with('opd'), $request)
+                ->where(function ($query) use ($q) {
+                    $query->where('judul', 'like', "%$q%")
+                        ->orWhere('deskripsi', 'like', "%$q%");
+                })
                 ->get(),
 
             // ✅ Penambahan query DataAplikasi
-            'aplikasi' => DataAplikasi::where('nama', 'like', "%$q%")
-                ->orWhere('deskripsi', 'like', "%$q%")
+            'aplikasi' => $this->applyOpdFilter(DataAplikasi::with('opd'), $request)
+                ->where(function ($query) use ($q) {
+                    $query->where('nama', 'like', "%$q%")
+                        ->orWhere('deskripsi', 'like', "%$q%");
+                })
                 ->get(),
 
             // ✅ Penambahan query Kecamatan

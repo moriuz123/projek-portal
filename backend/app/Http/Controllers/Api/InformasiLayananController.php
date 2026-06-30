@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Api\Concerns\FiltersByOpd;
 use App\Http\Controllers\Controller;
 use App\Models\InformasiLayanan;
 use Illuminate\Http\Request;
@@ -9,13 +10,16 @@ use Illuminate\Support\Facades\Storage;
 
 class InformasiLayananController extends Controller
 {
+    use FiltersByOpd;
+
     public function index(Request $request)
     {
         // Ambil parameter ?limit=5 jika ada
         $limit = $request->get('limit');
 
         // Query dasar
-        $query = InformasiLayanan::orderBy('created_at', 'desc');
+        $query = $this->applyOpdFilter(InformasiLayanan::with('opd'), $request)
+            ->orderBy('created_at', 'desc');
 
         // Jika ada limit, terapkan
         if ($limit) {
@@ -32,9 +36,11 @@ class InformasiLayananController extends Controller
         return response()->json($layanan);
     }
 
-    public function show($slug)
+    public function show(Request $request, $slug)
     {
-        $layanan = InformasiLayanan::where('slug', $slug)->firstOrFail();
+        $layanan = $this->applyOpdFilter(InformasiLayanan::with('opd'), $request)
+            ->where('slug', $slug)
+            ->firstOrFail();
 
         if ($layanan->cover) {
             $layanan->cover = asset('storage/' . $layanan->cover);
