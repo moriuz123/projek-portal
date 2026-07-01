@@ -17,8 +17,13 @@ class Menu extends Model
         'url',
         'is_active',
         'sort_order',
-
+        'opd_id',
     ];
+
+    public function opd()
+    {
+        return $this->belongsTo(Opd::class);
+    }
 
     public function children(): HasMany
     {
