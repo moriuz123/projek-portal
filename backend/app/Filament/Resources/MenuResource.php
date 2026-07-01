@@ -37,7 +37,7 @@ class MenuResource extends Resource
 
                     Forms\Components\Select::make('parent_id')
                         ->label('Parent Menu')
-                        ->options(Menu::pluck('title', 'id'))
+                        ->options(\App\Filament\Support\OpdFields::applyOpdScope(Menu::query())->pluck('title', 'id'))
                         ->searchable()
                         ->nullable(),
 
@@ -60,7 +60,7 @@ class MenuResource extends Resource
                         ->options(function (callable $get) {
                             switch ($get('link_type')) {
                                 case 'halaman_statis':
-                                    return \App\Models\HalamanStatis::pluck('judul', 'id');
+                                    return \App\Filament\Support\OpdFields::applyOpdScope(\App\Models\HalamanStatis::query())->pluck('judul', 'id');
                                 case 'kategori_berita':
                                     return \App\Models\Kategori::pluck('nama', 'slug');
                                 case 'modul':
@@ -109,6 +109,7 @@ class MenuResource extends Resource
                         ->default(0),
 
                     Forms\Components\Toggle::make('is_active')->default(true),
+                    ...\App\Filament\Support\OpdFields::form(false),
                 ])
             ]);
     }
@@ -140,6 +141,7 @@ class MenuResource extends Resource
 
                 Tables\Columns\TextColumn::make('sort_order')
                     ->sortable(),
+                ...\App\Filament\Support\OpdFields::tableColumns(),
             ])
             ->defaultSort('sort_order', 'asc')
             ->filters([
@@ -155,7 +157,7 @@ class MenuResource extends Resource
                 // 🔹 Filter berdasarkan parent
                 Tables\Filters\SelectFilter::make('parent_id')
                     ->label('Parent Menu')
-                    ->options(Menu::whereNull('parent_id')->pluck('title', 'id'))
+                    ->options(\App\Filament\Support\OpdFields::applyOpdScope(Menu::whereNull('parent_id'))->pluck('title', 'id'))
                     ->placeholder('Semua'),
 
                 // 🔹 Filter untuk menu induk saja (tanpa parent)
@@ -168,6 +170,7 @@ class MenuResource extends Resource
                         true: fn($query) => $query->whereNull('parent_id'),
                         false: fn($query) => $query->whereNotNull('parent_id'),
                     ),
+                ...\App\Filament\Support\OpdFields::filters(),
             ])
 
             // test
@@ -197,5 +200,10 @@ class MenuResource extends Resource
             'create' => Pages\CreateMenu::route('/create'),
             'edit' => Pages\EditMenu::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return \App\Filament\Support\OpdFields::applyOpdScope(parent::getEloquentQuery());
     }
 }

@@ -17,9 +17,9 @@ class OpdFields
         }
         return $query;
     }
-    public static function form(): array
+    public static function form(bool $withTampilDiPortal = true): array
     {
-        return [
+        $fields = [
             Select::make('opd_id')
                 ->label('OPD Pemilik')
                 ->relationship('opd', 'nama')
@@ -29,11 +29,15 @@ class OpdFields
                 ->default(fn () => auth()->check() ? auth()->user()->opd_id : null)
                 ->disabled(fn () => auth()->check() && !auth()->user()->hasRole('super_admin') && auth()->user()->opd_id)
                 ->dehydrated(),
-
-            Toggle::make('tampil_di_portal')
-                ->label('Tampil di Portal Utama')
-                ->default(true),
         ];
+
+        if ($withTampilDiPortal) {
+            $fields[] = Toggle::make('tampil_di_portal')
+                ->label('Tampil di Portal Utama')
+                ->default(true);
+        }
+
+        return $fields;
     }
 
     public static function tableColumns(): array
@@ -54,7 +58,8 @@ class OpdFields
                 ->label('OPD')
                 ->relationship('opd', 'nama')
                 ->searchable()
-                ->preload(),
+                ->preload()
+                ->hidden(fn () => auth()->check() && !auth()->user()->hasRole('super_admin') && auth()->user()->opd_id),
         ];
     }
 }
