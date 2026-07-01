@@ -10,7 +10,12 @@ class Tag extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nama', 'slug'];
+    protected $fillable = ['nama', 'slug', 'opd_id'];
+
+    public function opd()
+    {
+        return $this->belongsTo(Opd::class);
+    }
 
     protected static function boot()
     {

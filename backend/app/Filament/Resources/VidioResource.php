@@ -35,9 +35,9 @@ class VidioResource extends Resource
         return $form->schema([
             ...\App\Filament\Support\OpdFields::form(),
 
-            Select::make('kategori_vidio_id')
-                ->label('Kategori')
-                ->relationship('kategori', 'nama_kategori_vidio')
+            Forms\Components\Select::make('id_kategori_vidio')
+                ->label('Kategori Vidio')
+                ->relationship('kategori', 'nama_kategori_vidio', fn (\Illuminate\Database\Eloquent\Builder $query) => \App\Filament\Support\OpdFields::applyOpdScope($query))
                 ->required(),
 
             TextInput::make('judul_vidio')

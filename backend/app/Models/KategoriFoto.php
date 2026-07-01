@@ -7,7 +7,12 @@ use Illuminate\Support\Str;
 
 class KategoriFoto extends Model
 {
-    protected $fillable = ['nama', 'slug', 'cover'];
+    protected $fillable = ['nama', 'slug', 'cover', 'opd_id'];
+
+    public function opd()
+    {
+        return $this->belongsTo(Opd::class);
+    }
 
     public function fotos()
     {

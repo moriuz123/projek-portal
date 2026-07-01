@@ -69,15 +69,14 @@ class BeritaResource extends Resource
 
             Select::make('kategori_id')
                 ->label('Kategori')
-                ->relationship('kategori', 'nama')
+                ->relationship('kategori', 'nama', fn (\Illuminate\Database\Eloquent\Builder $query) => \App\Filament\Support\OpdFields::applyOpdScope($query))
                 ->searchable()
                 ->preload()
                 ->required(),
 
             Select::make('tags')
-                ->label('Tag')
                 ->multiple()
-                ->relationship('tags', 'nama')
+                ->relationship('tags', 'nama', fn (\Illuminate\Database\Eloquent\Builder $query) => \App\Filament\Support\OpdFields::applyOpdScope($query))
                 ->searchable()
                 ->preload()
                 ->columnSpanFull(),
@@ -170,7 +169,7 @@ class BeritaResource extends Resource
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('kategori')
-                    ->relationship('kategori', 'nama')
+                    ->relationship('kategori', 'nama', fn (\Illuminate\Database\Eloquent\Builder $query) => \App\Filament\Support\OpdFields::applyOpdScope($query))
                     ->label('Filter Kategori'),
 
                 ...\App\Filament\Support\OpdFields::filters(),

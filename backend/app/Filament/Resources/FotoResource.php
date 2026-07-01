@@ -121,7 +121,7 @@ class FotoResource extends Resource
 
             SelectFilter::make('kategori_foto_id')
                 ->label('Kategori')
-                ->relationship('kategori', 'nama')
+                ->relationship('kategori', 'nama', fn (\Illuminate\Database\Eloquent\Builder $query) => \App\Filament\Support\OpdFields::applyOpdScope($query))
                 ->searchable()
                 ->preload(),
 
