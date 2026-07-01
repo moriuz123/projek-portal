@@ -59,6 +59,7 @@ class HeroSliderResource extends Resource
             TextInput::make('order')
                 ->numeric()
                 ->default(0),
+            ...\App\Filament\Support\OpdFields::form(false),
         ]);
     }
 
@@ -88,8 +89,12 @@ class HeroSliderResource extends Resource
                     ->color(fn($state) => $state == 1 ? 'success' : 'danger'),
 
                 TextColumn::make('order')->sortable(),
+                ...\App\Filament\Support\OpdFields::tableColumns(),
             ])
             ->defaultSort('order')
+            ->filters([
+                ...\App\Filament\Support\OpdFields::filters(),
+            ])
             ->paginationPageOptions([10, 25, 50]) // ✅ Optimasi jumlah data per halaman
             ->actions([
                 ActionGroup::make([
@@ -116,5 +121,10 @@ class HeroSliderResource extends Resource
             'create' => Pages\CreateHeroSlider::route('/create'),
             'edit' => Pages\EditHeroSlider::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return \App\Filament\Support\OpdFields::applyOpdScope(parent::getEloquentQuery());
     }
 }

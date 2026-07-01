@@ -4,13 +4,26 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\HeroSlider;
+use App\Http\Controllers\Api\Concerns\FiltersByOpd;
+use Illuminate\Http\Request;
 
 class HeroSliderController extends Controller
 {
-    public function index()
+    use FiltersByOpd;
+
+    public function index(Request $request)
     {
+        $query = HeroSlider::query();
+
+        if ($request->has('opd_id') || $request->has('opd')) {
+            $query = $this->applyOpdFilter($query, $request);
+        } else {
+            // Main portal
+            $query->whereNull('opd_id');
+        }
+
         return response()->json(
-            HeroSlider::where('aktif', 1)->orderBy('order')->get()
+            $query->where('aktif', 1)->orderBy('order')->get()
         );
     }
 }

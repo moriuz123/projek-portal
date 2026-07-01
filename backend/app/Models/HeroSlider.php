@@ -16,5 +16,11 @@ class HeroSlider extends Model
         'aktif',
         'status',
         'order',
+        'opd_id',
     ];
+
+    public function opd()
+    {
+        return $this->belongsTo(Opd::class);
+    }
 }
