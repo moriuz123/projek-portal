@@ -119,4 +119,9 @@ class AgendaResource extends Resource
             'edit' => Pages\EditAgenda::route('/{record}/edit'),
         ];
     }
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return \App\Filament\Support\OpdFields::applyOpdScope(parent::getEloquentQuery());
+    }
+
 }

@@ -42,4 +42,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get the opd that owns the User
+     */
+    public function opd()
+    {
+        return $this->belongsTo(Opd::class);
+    }
 }

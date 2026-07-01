@@ -5,13 +5,17 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Poling;
+use App\Http\Controllers\Api\Concerns\FiltersByOpd;
 
 class PollingController extends Controller
 {
+    use FiltersByOpd;
+
     // Ambil pertanyaan + jawaban
-    public function index()
+    public function index(Request $request)
     {
-        $pertanyaan = Poling::where('type', 'Pertanyaan')
+        $pertanyaan = $this->applyOpdFilter(Poling::query(), $request)
+            ->where('type', 'Pertanyaan')
             ->where('status', '1')
             ->get();
 

@@ -15,5 +15,12 @@ class KritikSaran extends Model
         'status',
         'no_hpusr',
         'balas',
+        'opd_id',
+        'tampil_di_portal',
     ];
+
+    public function opd()
+    {
+        return $this->belongsTo(Opd::class);
+    }
 }

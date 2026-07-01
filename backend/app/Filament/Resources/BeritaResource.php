@@ -236,8 +236,10 @@ class BeritaResource extends Resource
 
     public static function getEloquentQuery(): Builder
     {
-        return parent::getEloquentQuery()
-            ->with(['kategori', 'tags'])
-            ->withTrashed();
+        return \App\Filament\Support\OpdFields::applyOpdScope(
+            parent::getEloquentQuery()
+                ->with(['kategori', 'tags'])
+                ->withTrashed()
+        );
     }
 }

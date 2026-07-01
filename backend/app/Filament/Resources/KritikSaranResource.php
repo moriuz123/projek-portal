@@ -31,7 +31,10 @@ class KritikSaranResource extends Resource
     {
         return $table
             ->columns(static::getTableColumns())
-            ->defaultSort('tanggal', 'desc');
+            ->defaultSort('tanggal', 'desc')
+            ->filters([
+                ...\App\Filament\Support\OpdFields::filters(),
+            ]);
     }
 
     public static function getPages(): array
@@ -77,6 +80,7 @@ class KritikSaranResource extends Resource
             Textarea::make('balas')
                 ->label('Balasan')
                 ->rows(4),
+            ...\App\Filament\Support\OpdFields::form(),
         ];
     }
 
@@ -87,7 +91,13 @@ class KritikSaranResource extends Resource
             TextColumn::make('email')->label('Email'),
             TextColumn::make('judul')->label('Judul')->limit(30),
             IconColumn::make('status')->label('Tampil')->boolean(),
+            ...\App\Filament\Support\OpdFields::tableColumns(),
             TextColumn::make('tanggal')->label('Tanggal')->date('d M Y'),
         ];
+    }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return \App\Filament\Support\OpdFields::applyOpdScope(parent::getEloquentQuery());
     }
 }

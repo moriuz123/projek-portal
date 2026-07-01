@@ -16,7 +16,14 @@ class Poling extends Model
         'rating',
         'status',
         'id',
+        'opd_id',
+        'tampil_di_portal',
     ];
+
+    public function opd()
+    {
+        return $this->belongsTo(Opd::class);
+    }
 
     // Relasi jika perlu nanti
     public function pertanyaan()

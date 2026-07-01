@@ -52,6 +52,7 @@ class PolingResource extends Resource
                     ->label('ID Pertanyaan')
                     ->numeric()
                     ->helperText('Kosongkan jika ini adalah pertanyaan'),
+                ...\App\Filament\Support\OpdFields::form(),
             ]);
     }
 
@@ -75,6 +76,7 @@ class PolingResource extends Resource
                     ->label('ID Pertanyaan')
                     ->sortable()
                     ->hidden(fn($record) => $record && $record->type === 'Pertanyaan'),
+                ...\App\Filament\Support\OpdFields::tableColumns(),
 
                 TextColumn::make('rating')
                     ->label('Jumlah Vote')
@@ -90,7 +92,7 @@ class PolingResource extends Resource
             ])
             ->defaultSort('id', 'asc')
             ->filters([
-                //
+                ...\App\Filament\Support\OpdFields::filters(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -108,5 +110,10 @@ class PolingResource extends Resource
             'create' => Pages\CreatePoling::route('/create'),
             'edit' => Pages\EditPoling::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return \App\Filament\Support\OpdFields::applyOpdScope(parent::getEloquentQuery());
     }
 }

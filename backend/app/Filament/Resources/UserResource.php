@@ -52,6 +52,13 @@ class UserResource extends Resource
                     ->multiple()
                     ->preload()
                     ->required(),
+                Forms\Components\Select::make('opd_id')
+                    ->label('OPD (Dinas)')
+                    ->relationship('opd', 'nama')
+                    ->searchable()
+                    ->preload()
+                    ->nullable()
+                    ->visible(fn () => auth()->check() && auth()->user()->hasRole('super_admin')),
             ]);
     }
 
@@ -75,6 +82,10 @@ class UserResource extends Resource
                         'success' => 'super_admin',
                     ])
                     ->searchable(),
+                Tables\Columns\TextColumn::make('opd.nama')
+                    ->label('OPD')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Dibuat Pada')
                     ->dateTime('d M Y H:i')

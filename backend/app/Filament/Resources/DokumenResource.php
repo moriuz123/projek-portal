@@ -145,4 +145,9 @@ class DokumenResource extends Resource
             'edit' => Pages\EditDokumen::route('/{record}/edit'),
         ];
     }
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return \App\Filament\Support\OpdFields::applyOpdScope(parent::getEloquentQuery());
+    }
+
 }

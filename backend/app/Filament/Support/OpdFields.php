@@ -6,9 +6,17 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Database\Eloquent\Builder;
 
 class OpdFields
 {
+    public static function applyOpdScope(Builder $query): Builder
+    {
+        if (auth()->check() && !auth()->user()->hasRole('super_admin') && auth()->user()->opd_id) {
+            $query->where('opd_id', auth()->user()->opd_id);
+        }
+        return $query;
+    }
     public static function form(): array
     {
         return [
@@ -17,7 +25,10 @@ class OpdFields
                 ->relationship('opd', 'nama')
                 ->searchable()
                 ->preload()
-                ->nullable(),
+                ->nullable()
+                ->default(fn () => auth()->check() ? auth()->user()->opd_id : null)
+                ->disabled(fn () => auth()->check() && !auth()->user()->hasRole('super_admin') && auth()->user()->opd_id)
+                ->dehydrated(),
 
             Toggle::make('tampil_di_portal')
                 ->label('Tampil di Portal Utama')
