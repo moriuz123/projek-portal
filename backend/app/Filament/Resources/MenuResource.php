@@ -60,7 +60,7 @@ class MenuResource extends Resource
                         ->options(function (callable $get) {
                             switch ($get('link_type')) {
                                 case 'halaman_statis':
-                                    return \App\Models\HalamanStatis::pluck('judul', 'id');
+                                    return \App\Filament\Support\OpdFields::applyOpdScope(\App\Models\HalamanStatis::query())->pluck('judul', 'id');
                                 case 'kategori_berita':
                                     return \App\Models\Kategori::pluck('nama', 'slug');
                                 case 'modul':
@@ -109,7 +109,7 @@ class MenuResource extends Resource
                         ->default(0),
 
                     Forms\Components\Toggle::make('is_active')->default(true),
-                    ...\App\Filament\Support\OpdFields::form(),
+                    ...\App\Filament\Support\OpdFields::form(false),
                 ])
             ]);
     }
