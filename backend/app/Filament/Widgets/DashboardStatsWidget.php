@@ -14,19 +14,19 @@ class DashboardStatsWidget extends BaseWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('Berita', Berita::count())
+            Stat::make('Berita', \App\Filament\Support\OpdFields::applyOpdScope(Berita::query())->count())
                 ->description('Jumlah berita tersedia')
                 ->color('primary'),
 
-            Stat::make('Pengumuman', Pengumuman::count())
+            Stat::make('Pengumuman', \App\Filament\Support\OpdFields::applyOpdScope(Pengumuman::query())->count())
                 ->description('Jumlah pengumuman tersedia')
                 ->color('success'),
 
-            Stat::make('Dokumen', Dokumen::count())
+            Stat::make('Dokumen', \App\Filament\Support\OpdFields::applyOpdScope(Dokumen::query())->count())
                 ->description('Jumlah dokumen tersedia')
                 ->color('warning'),
 
-            Stat::make('Informasi Layanan', InformasiLayanan::count())
+            Stat::make('Informasi Layanan', \App\Filament\Support\OpdFields::applyOpdScope(InformasiLayanan::query())->count())
                 ->description('Jumlah info layanan tersedia')
                 ->color('danger'),
         ];
