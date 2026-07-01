@@ -16,5 +16,11 @@ class KategoriVidio extends Model
     protected $fillable = [
         'nama_kategori_vidio',
         'slug_kategori_vidio',
+        'opd_id',
     ];
+
+    public function opd()
+    {
+        return $this->belongsTo(Opd::class);
+    }
 }

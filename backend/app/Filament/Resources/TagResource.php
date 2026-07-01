@@ -35,6 +35,7 @@ class TagResource extends Resource
                     ->disabled()
                     ->dehydrated()
                     ->unique(ignoreRecord: true),
+                ...\App\Filament\Support\OpdFields::form(false),
             ]);
     }
 
@@ -51,6 +52,10 @@ class TagResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('nama')->label('Nama'),
                 Tables\Columns\TextColumn::make('slug'),
+                ...\App\Filament\Support\OpdFields::tableColumns(),
+            ])
+            ->filters([
+                ...\App\Filament\Support\OpdFields::filters(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -68,5 +73,10 @@ class TagResource extends Resource
             'create' => Pages\CreateTag::route('/create'),
             'edit' => Pages\EditTag::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return \App\Filament\Support\OpdFields::applyOpdScope(parent::getEloquentQuery());
     }
 }

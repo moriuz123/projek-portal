@@ -40,6 +40,7 @@ class KategoriFotoResource extends Resource
                     ->directory('kategori-foto')
                     ->required()
                     ->maxSize(1024),
+                ...\App\Filament\Support\OpdFields::form(false),
             ]);
     }
 
@@ -60,10 +61,11 @@ class KategoriFotoResource extends Resource
                 Tables\Columns\TextColumn::make('slug')
                     ->label('Slug')
                     ->searchable(),
-
-
+                ...\App\Filament\Support\OpdFields::tableColumns(),
             ])
-            ->filters([])
+            ->filters([
+                ...\App\Filament\Support\OpdFields::filters(),
+            ])
 
 
             ->actions([
@@ -91,5 +93,10 @@ class KategoriFotoResource extends Resource
             'create' => Pages\CreateKategoriFoto::route('/create'),
             'edit' => Pages\EditKategoriFoto::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return \App\Filament\Support\OpdFields::applyOpdScope(parent::getEloquentQuery());
     }
 }

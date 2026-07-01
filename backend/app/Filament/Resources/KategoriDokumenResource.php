@@ -34,6 +34,7 @@ class KategoriDokumenResource extends Resource
                     ->afterStateUpdated(function (Set $set, $state) {
                         $set('slug', str_replace(' ', '-', $state));
                     }),
+                ...\App\Filament\Support\OpdFields::form(false),
             ]);
     }
 
@@ -45,9 +46,11 @@ class KategoriDokumenResource extends Resource
 
                 Tables\Columns\TextColumn::make('nama')->searchable(),
                 Tables\Columns\TextColumn::make('slug')->searchable(),
-
+                ...\App\Filament\Support\OpdFields::tableColumns(),
             ])
-            ->filters([])
+            ->filters([
+                ...\App\Filament\Support\OpdFields::filters(),
+            ])
             ->actions([
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\ViewAction::make(),
@@ -74,5 +77,10 @@ class KategoriDokumenResource extends Resource
     public static function shouldRegisterNavigation(): bool
     {
         return false;
+    }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return \App\Filament\Support\OpdFields::applyOpdScope(parent::getEloquentQuery());
     }
 }

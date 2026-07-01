@@ -40,6 +40,7 @@ class KategoriResource extends Resource
                 ->label('Slug')
                 ->helperText('Otomatis dibuat dari nama jika dikosongkan')
                 ->maxLength(255),
+            ...\App\Filament\Support\OpdFields::form(false),
         ]);
     }
 
@@ -56,7 +57,11 @@ class KategoriResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('nama'),
                 Tables\Columns\TextColumn::make('slug'),
+                ...\App\Filament\Support\OpdFields::tableColumns(),
                 Tables\Columns\TextColumn::make('created_at')->dateTime(),
+            ])
+            ->filters([
+                ...\App\Filament\Support\OpdFields::filters(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
@@ -74,5 +79,10 @@ class KategoriResource extends Resource
             'create' => Pages\CreateKategori::route('/create'),
             'edit' => Pages\EditKategori::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return \App\Filament\Support\OpdFields::applyOpdScope(parent::getEloquentQuery());
     }
 }

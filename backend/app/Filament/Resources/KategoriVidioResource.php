@@ -34,6 +34,7 @@ class KategoriVidioResource extends Resource
                 Forms\Components\TextInput::make('slug_kategori_vidio')
                     ->required()
                     ->maxLength(255),
+                ...\App\Filament\Support\OpdFields::form(false),
             ]);
     }
 
@@ -44,8 +45,11 @@ class KategoriVidioResource extends Resource
                 Tables\Columns\TextColumn::make('id_kategori_vidio')->label('ID')->sortable(),
                 Tables\Columns\TextColumn::make('nama_kategori_vidio')->label('Nama')->searchable(),
                 Tables\Columns\TextColumn::make('slug_kategori_vidio')->label('Slug')->searchable(),
+                ...\App\Filament\Support\OpdFields::tableColumns(),
             ])
-            ->filters([])
+            ->filters([
+                ...\App\Filament\Support\OpdFields::filters(),
+            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
@@ -72,5 +76,10 @@ class KategoriVidioResource extends Resource
             'create' => Pages\CreateKategoriVidio::route('/create'),
             'edit' => Pages\EditKategoriVidio::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return \App\Filament\Support\OpdFields::applyOpdScope(parent::getEloquentQuery());
     }
 }
