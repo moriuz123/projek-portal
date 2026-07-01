@@ -15,9 +15,20 @@ class LogVisitor
         $agent = substr($request->header('User-Agent'), 0, 255);
         $path = $request->path();
 
-        // Cek apakah sudah ada kunjungan dari IP + UserAgent dalam 1 jam terakhir
+        $opdId = null;
+        if ($request->has('opd_id')) {
+            $opdId = $request->opd_id;
+        } elseif ($request->has('opd')) {
+            $opd = \App\Models\Opd::where('slug', $request->opd)->first();
+            if ($opd) {
+                $opdId = $opd->id;
+            }
+        }
+
+        // Cek apakah sudah ada kunjungan dari IP + UserAgent + opd_id dalam 1 jam terakhir
         $exists = Visitor::where('ip_address', $ip)
             ->where('user_agent', $agent)
+            ->where('opd_id', $opdId)
             ->where('visited_at', '>=', Carbon::now()->subHour())
             ->exists();
 
@@ -28,6 +39,7 @@ class LogVisitor
                 'user_agent' => $agent,
                 'page' => $path,
                 'visited_at' => now(),
+                'opd_id' => $opdId,
             ]);
         }
 

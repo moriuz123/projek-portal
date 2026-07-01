@@ -14,5 +14,11 @@ class Visitor extends Model
         'page',
         'referrer',
         'visited_at',
+        'opd_id',
     ];
+
+    public function opd()
+    {
+        return $this->belongsTo(Opd::class);
+    }
 }

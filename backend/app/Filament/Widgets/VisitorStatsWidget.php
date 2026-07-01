@@ -10,9 +10,10 @@ class VisitorStatsWidget extends BaseWidget
 {
     protected function getStats(): array
     {
-        $totalVisitors = Visitor::count();
-        $todayVisitors = Visitor::whereDate('visited_at', today())->count();
-        $uniqueIPs = Visitor::distinct('ip_address')->count();
+        $query = \App\Filament\Support\OpdFields::applyOpdScope(Visitor::query());
+        $totalVisitors = (clone $query)->count();
+        $todayVisitors = (clone $query)->whereDate('visited_at', today())->count();
+        $uniqueIPs = (clone $query)->distinct('ip_address')->count('ip_address');
 
         return [
             Stat::make('Total Kunjungan', number_format($totalVisitors))
